@@ -5,6 +5,7 @@ const express = require('express');
 const app = express();
 
 app.set('port', process.env.PORT || 3000);
+app.use(express.json());
 app.locals.title = "Idea Box";
 app.locals.ideas = ideas;
 
@@ -19,13 +20,12 @@ app.get('/api/v1/ideas', (request, response) => {
 });
 
 app.post('/api/v1/ideas', (request, response) => {
-  console.log('this', request.body)
-  const newIdea = request.body;
+  // console.log(request)
+  const id = Date.now();
+  const { title, description } = request.body;
 
-  app.locals.ideas.push(newIdea);
-
-  response.status(201).json(newIdea)
-});
+  response.json({ id, title, description });
+})
 
 app.listen(app.get('port'), () => {
   console.log(`${app.locals.title} is running on http://localhost:${app.get('port')}.`);
