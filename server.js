@@ -20,11 +20,20 @@ app.get('/api/v1/ideas', (request, response) => {
 });
 
 app.post('/api/v1/ideas', (request, response) => {
-  // console.log(request)
-  const id = Date.now();
-  const { title, description } = request.body;
+  const newIdea = request.body;
+  app.locals.ideas.push(newIdea);
 
-  response.json({ id, title, description });
+  response.json(newIdea);
+});
+
+app.delete('/api/v1/ideas/:id', (request, response) => {
+  const { id } = request.params;
+  // const match = app.locals.ideas.find(idea => idea.id === id);
+
+  const filteredIdeas = app.locals.ideas.filter(idea => idea.id != id);
+  app.locals.ideas = filteredIdeas;
+
+  return response.sendStatus(204);
 })
 
 app.listen(app.get('port'), () => {
