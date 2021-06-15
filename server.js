@@ -37,7 +37,7 @@ app.delete('/api/v1/ideas/:id', (request, response) => {
   const filteredIdeas = app.locals.ideas.filter(idea => idea.id != id);
   app.locals.ideas = filteredIdeas;
 
-  return response.sendStatus(204).json({ id });
+  return response.sendStatus(204);
 })
 
 app.listen(app.get('port'), () => {
